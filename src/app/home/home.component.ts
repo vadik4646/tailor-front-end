@@ -35,14 +35,8 @@ export class HomeComponent implements OnInit {
 
   getThings() {
     this.thingService.getThings().subscribe(
-        things  => {
-          console.log(things);
-          this.things = things
-        },
-        error =>  {
-          console.log(error);
-          this.errorMessage = <string> error
-        }
+        things  => this.things = things,
+        error => this.errorMessage = <string> error
     );
   }
 
