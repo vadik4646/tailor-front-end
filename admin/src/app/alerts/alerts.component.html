@@ -1,0 +1,9 @@
+<div id="alert-wrapper" #messageContainer>
+  <div
+    class="alert alert-{{ alertsService.type }}"
+    role="alert"
+    [@alertMessage]="alertsService.state"
+  >
+    {{ alertsService.message }}
+  </div>
+</div>

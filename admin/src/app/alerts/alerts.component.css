@@ -1,0 +1,7 @@
+#alert-wrapper {
+    -webkit-transform: translateZ(0);
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+}
