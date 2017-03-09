@@ -13,11 +13,6 @@ export class AuthService {
   register(user): Observable<any> {
     let body = JSON.stringify({ content: user });
 
-    let headers = new Headers({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.post(ServerLinks.registerUrl(), body, { headers: headers });
+    return this.http.post(ServerLinks.register, body);
   }
 }
