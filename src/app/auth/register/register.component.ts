@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { AuthService } from "../auth.service";
 import { AlertsService } from "../../alerts/alerts.service";
-import { ServerResponse } from "../../shared/server-response";
-import { User } from "../user";
 
 @Component({
   selector: 'admin-tfe-register',
@@ -33,14 +31,6 @@ export class RegisterComponent implements OnInit {
         this.alertsService.setResponse(response.json()).show();
       }
     );
-  }
-
-  go() {
-    this.alertsService.newAlert().setResponse({message: '2awdawd' +(+ new Date), type: 'success', 'state' : 'initial'}).show();
-  }
-
-  onSubmitResponse(response) {
-
   }
 
   ngOnInit() {

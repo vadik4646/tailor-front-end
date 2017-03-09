@@ -38,15 +38,7 @@ import { Alert } from "./alert";
           style({opacity: 0, transform: 'translateX(100%)',  offset: 1.0})
         ])
       )),
-      transition('hide => moveTop', animate(
-        Alert.moveTopAnimationTime
-        // ,
-        // keyframes([
-        //   style({opacity: 0, height: '0px',     offset: 0}),
-        //   style({opacity: 0, transform: 'translateX(-15px)', offset: 0.7}),
-        //   style({opacity: 0, transform: 'translateX(100%)',  offset: 1.0})
-        // ])
-      )),
+      transition('hide => moveTop', animate(Alert.moveTopAnimationTime)),
     ])
   ]
 })

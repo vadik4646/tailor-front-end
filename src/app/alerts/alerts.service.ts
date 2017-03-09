@@ -5,7 +5,7 @@ import { Alert } from "./alert";
 @Injectable()
 export class AlertsService {
   private alerts: Alert[] = [];
-  private stack: any = {};
+  private stack: Alert = new Alert();
 
   constructor() { }
 
@@ -15,23 +15,6 @@ export class AlertsService {
 
   setState(state) {
     this.stack.state = state;
-    return this;
-  }
-
-  setResponse(response) {
-    if (response.hasOwnProperty('validationErrors') && Object.keys(response.validationErrors).length > 0) {
-      this.stack.message = this.handleValidatorMessages(response);
-    } else {
-      this.stack.message = response.message;
-    }
-
-    this.stack.type = response.type;
-
-    return this;
-  }
-
-  newAlert() {
-    this.stack = new Alert();
     return this;
   }
 
@@ -45,17 +28,27 @@ export class AlertsService {
     return this;
   }
 
+  setResponse(response) {
+    if (response.hasOwnProperty('validationErrors') && Object.keys(response.validationErrors).length > 0) {
+      this.stack.message = this.handleValidatorMessages(response);
+    } else {
+      this.stack.message = response.message;
+    }
+
+    this.stack.type = response.type;
+    return this;
+  }
+
   show() {
     let newAlert = new Alert(
       this.stack.type,
       this.stack.message,
       this.stack.state
     );
-
-    this.stack = {};
-
     this.alerts.push(newAlert);
     this.initAnimations(newAlert);
+
+    this.stack = new Alert();
     return this;
   }
 
