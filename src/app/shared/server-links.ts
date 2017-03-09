@@ -1,8 +1,10 @@
 export class ServerLinks {
-  private static server = 'http://api.tailor.local/app_dev.php';
-  private static registerSubmit = '/authentication/register';
+  public static server = 'http://api.tailor.local/app_dev.php';
 
-  public static registerUrl() {
-    return ServerLinks.server + ServerLinks.registerSubmit;
-  }
+  public static registerSubmitPath = '/authentication/register';
+  public static categoryListPath = '/category/list';
+
+  public static register = ServerLinks.server + ServerLinks.registerSubmitPath;
+  public static categoryList = ServerLinks.server + ServerLinks.categoryListPath;
+
 }
