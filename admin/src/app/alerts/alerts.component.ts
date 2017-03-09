@@ -1,35 +1,20 @@
-import {Component, OnInit, trigger, state, style, transition, animate} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { AlertsService } from "./alerts.service";
+import { Alert } from "./alert";
 
 @Component({
   selector: 'admin-tfe-alerts',
   templateUrl: './alerts.component.html',
-  styleUrls: ['./alerts.component.css'],
-  animations: [
-    trigger('alertMessage', [
-      state('initial', style({
-        // transform: 'translateX(-300)'
-      })),
-      state('show', style({
-        // transform: 'translateX(100)',
-        transform: 'scale(1.2)'
-      })),
-      state('hide', style({
-        // transform: 'translateX(200)',
-        transform: 'scale(1.5)'
-      })),
-      transition('initial => show', animate(1000)),
-      transition('show => hide', animate(800)),
-    ])
-  ]
+  styleUrls: ['./alerts.component.css']
 })
-export class AlertsComponent implements OnInit {
 
-  constructor(public alertsService: AlertsService) {
-  }
+export class AlertsComponent implements OnInit {
+  alerts: Alert[];
+
+  constructor(private alertsService: AlertsService) {}
 
   ngOnInit() {
-
+    this.alerts = this.alertsService.getAlerts();
   }
 
 }

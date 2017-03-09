@@ -13,6 +13,7 @@ import { EqualValidatorDirective } from './shared/equal-validator.directive';
 import { adminRouting } from './app.routing';
 import { AlertsComponent } from './alerts/alerts.component';
 import { AlertsService } from "./alerts/alerts.service";
+import { AlertComponent } from './alerts/alert.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AlertsService } from "./alerts/alerts.service";
     HomeComponent,
     RegisterComponent,
     EqualValidatorDirective,
-    AlertsComponent
+    AlertsComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -34,4 +36,5 @@ import { AlertsService } from "./alerts/alerts.service";
   providers: [AlertsService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

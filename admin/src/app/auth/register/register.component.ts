@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { AuthService } from "../auth.service";
 import { AlertsService } from "../../alerts/alerts.service";
-import {ServerResponse} from "../../shared/server-response";
+import { ServerResponse } from "../../shared/server-response";
+import { User } from "../user";
 
 @Component({
   selector: 'admin-tfe-register',
@@ -23,26 +24,19 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private alertsService: AlertsService,
-  ) {
-  }
+  ) { }
+
 
   onSubmit(form: NgForm) {
-    this.alertsService.setState('show');
-    // this.authService.register(form.value).subscribe(
-    //   (response: ServerResponse) => {
-    //     this.alertsService.setResponse(response);
-    //   }
-    // );
+    this.authService.register(form.value).subscribe(
+      (response) => {
+        this.alertsService.setResponse(response.json()).show();
+      }
+    );
   }
 
-  onAnimateShow() {
-    this.alertsService.setState('show');
-  }
-  onAnimateHide() {
-    this.alertsService.setState('hide');
-  }
-  onAnimateReset() {
-    this.alertsService.setState('initial');
+  go() {
+    this.alertsService.newAlert().setResponse({message: '2awdawd' +(+ new Date), type: 'success', 'state' : 'initial'}).show();
   }
 
   onSubmitResponse(response) {
@@ -50,7 +44,6 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
 }

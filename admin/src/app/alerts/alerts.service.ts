@@ -1,49 +1,88 @@
 import { Injectable } from '@angular/core';
-import {ServerResponse} from "../shared/server-response";
+import { ServerResponse } from "../shared";
+import { Alert } from "./alert";
 
 @Injectable()
 export class AlertsService {
-  message: string = '';
-  type: string = 'danger';
-  state: string = 'initial';
-  response: ServerResponse;
+  private alerts: Alert[] = [];
+  private stack: any = {};
 
   constructor() { }
 
-  setState(state) {
-    this.state = state;
+  getAlerts(){
+    return this.alerts;
   }
 
-  setResponse(response: ServerResponse) {
-    this.response = response;
+  setState(state) {
+    this.stack.state = state;
+    return this;
+  }
+
+  setResponse(response) {
+    if (response.hasOwnProperty('validationErrors') && Object.keys(response.validationErrors).length > 0) {
+      this.stack.message = this.handleValidatorMessages(response);
+    } else {
+      this.stack.message = response.message;
+    }
+
+    this.stack.type = response.type;
+
+    return this;
+  }
+
+  newAlert() {
+    this.stack = new Alert();
     return this;
   }
 
   setType(type: string) {
-    this.type = type;
+    this.stack.type = type;
     return this;
   }
 
   setMessage(message: string) {
-    this.message = message;
+    this.stack.message = message;
     return this;
   }
 
-  showValidation() {
-    if (this.type === 'success' && this.message) {
-      this.setMessage(this.message);
-      return this.show();
-    }
+  show() {
+    let newAlert = new Alert(
+      this.stack.type,
+      this.stack.message,
+      this.stack.state
+    );
 
-    if (this.response.hasOwnProperty('validatorMessages') && this.response.validatorMessages.length > 0) {
-      this.message = this.handleValidatorMessages();
-      return this;
-    }
+    this.stack = {};
+
+    this.alerts.push(newAlert);
+    this.initAnimations(newAlert);
+    return this;
   }
 
-  private handleValidatorMessages() {
+  initAnimations(alert) {
+    this.changeState(alert, 'show');
+    this.changeState(alert, 'hide', Alert.lifeTime);
+    this.changeState(alert, 'moveTop', Alert.hideTime);
+    this.removeAlert(alert, Alert.removeTime);
+  }
+
+  private changeState(alert, state, timeout = 0) {
+    setTimeout(
+      () => this.alerts[this.alerts.indexOf(alert)].state = state,
+      timeout
+    );
+  }
+
+  private removeAlert(alert, timeout) {
+    setTimeout(
+      () => this.alerts.splice(this.alerts.indexOf(alert), 1),
+      timeout
+    );
+  }
+
+  private handleValidatorMessages(response: ServerResponse) {
     let finalMessages = [];
-    let messagesGroups = this.response.validatorMessages;
+    let messagesGroups = response.validationErrors;
 
     for (let groupName in messagesGroups) {
       for (let i = 0; i < messagesGroups[groupName].length; i++) {
@@ -53,10 +92,4 @@ export class AlertsService {
 
     return finalMessages.join('<br/>');
   }
-
-  show() {
-
-    return this;
-  }
-
 }
